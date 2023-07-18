@@ -1,7 +1,6 @@
 package com.fiap.claimsapi.interfaces.controller;
 
 import com.fiap.claimsapi.application.domain.entity.Attachment;
-import com.fiap.claimsapi.application.domain.entity.Ticket;
 import com.fiap.claimsapi.infrastructure.util.AttachmentTransactionalUtil;
 import com.fiap.claimsapi.interfaces.model.AttachmentRequest;
 import com.fiap.claimsapi.interfaces.model.AttachmentResponse;
@@ -50,7 +49,7 @@ public class AttachmentController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Attachment> deleteGame(@PathVariable Long id){
+    public ResponseEntity<Attachment> deleteAttachment(@PathVariable Long id){
         return attachmentService.deleteAttachment(id);
 
     }

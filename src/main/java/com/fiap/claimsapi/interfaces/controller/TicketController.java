@@ -38,7 +38,7 @@ public class TicketController {
 
     @GetMapping("/find/{id}")
     public ResponseEntity<TicketResponse> getTicketById(@PathVariable Long id) {
-        Optional<Ticket> ticket = ticketService.getGameById(id);
+        Optional<Ticket> ticket = ticketService.getTicketById(id);
         return ticket.map(value -> ResponseEntity.ok(TicketTransactionalUtil.toResponse(value))).orElseGet(() ->
                 ResponseEntity.noContent().build());
     }
@@ -49,7 +49,7 @@ public class TicketController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Ticket> deleteGame(@PathVariable Long id){
+    public ResponseEntity<Ticket> deleteTicket(@PathVariable Long id){
             return ticketService.deleteTicket(id);
 
     }

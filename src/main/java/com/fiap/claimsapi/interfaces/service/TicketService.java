@@ -19,7 +19,6 @@ import java.util.Optional;
 @Log4j2
 public class TicketService {
 
-    private final String INIT_MESSAGE = "Seu ticket foi aberto com sucesso e já está em análise pelo responsável da área";
     private final TicketRepository ticketRepository;
 
     @Autowired
@@ -30,9 +29,10 @@ public class TicketService {
     }
 
     public Ticket save(@RequestBody Ticket ticket) {
+        String initMessage = "Seu ticket foi aberto com sucesso e já está em análise pelo responsável da área";
         ticket.setDocumentNumber(ticketRepository.getDocumentNumber().toString());
         log.info("Enviando mensagem para a QUEUE da AWS...");
-        EmailMSgDto emailMSgDtoDTO = EmailMSgDto.toEmailMSgDtoDTO(ticket, INIT_MESSAGE);
+        EmailMSgDto emailMSgDtoDTO = EmailMSgDto.toEmailMSgDtoDTO(ticket, initMessage);
         messageQueueService.publishExpense(emailMSgDtoDTO);
         return new Ticket(); //ticketRepository.save(ticket);
     }
@@ -52,7 +52,7 @@ public class TicketService {
         return ticketRepository.findAll();
     }
 
-    public Optional<Ticket> getGameById(@PathVariable Long id) {
+    public Optional<Ticket> getTicketById(@PathVariable Long id) {
         return ticketRepository.findById(id);
 
     }
