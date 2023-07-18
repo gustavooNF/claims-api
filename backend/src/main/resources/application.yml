@@ -17,7 +17,7 @@ cloud:
     stack:
       auto: false
     credentials:
-      access-key: <key>
-      secret-key: <key>
+      access-key: <KEY>
+      secret-key: <KEY>
     end-point:
       uri: msg-email-ecomerce
