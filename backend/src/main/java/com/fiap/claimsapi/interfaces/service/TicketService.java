@@ -6,7 +6,6 @@ import com.fiap.claimsapi.interfaces.model.dto.EmailMSgDto;
 import com.fiap.claimsapi.interfaces.service.aws.MessageQueueService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,11 +20,11 @@ public class TicketService {
 
     private final TicketRepository ticketRepository;
 
-    @Autowired
-    private MessageQueueService messageQueueService;
+    private final MessageQueueService messageQueueService;
 
-    public TicketService(TicketRepository ticketRepository) {
+    public TicketService(TicketRepository ticketRepository, MessageQueueService messageQueueService) {
         this.ticketRepository = ticketRepository;
+        this.messageQueueService = messageQueueService;
     }
 
     public Ticket save(@RequestBody Ticket ticket) {

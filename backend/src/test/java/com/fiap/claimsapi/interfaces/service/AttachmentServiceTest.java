@@ -20,20 +20,20 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
 
-class AttachmentServiceTest {
+@SpringBootTest
+public class AttachmentServiceTest {
 
     @Test
     void testSave() {
-
-
         Attachment attachment = new Attachment();
         attachment.setId(1L);
         attachment.setTicket(new Ticket());
         attachment.setUrl("https://example.org/example");
         AttachmentRepository attachmentRepository = mock(AttachmentRepository.class);
-        when(attachmentRepository.save(Mockito.<Attachment>any())).thenReturn(attachment);
+        when(attachmentRepository.save(Mockito.any())).thenReturn(attachment);
         AttachmentService attachmentService = new AttachmentService(attachmentRepository);
 
         Attachment attachment2 = new Attachment();
@@ -41,13 +41,12 @@ class AttachmentServiceTest {
         attachment2.setTicket(new Ticket());
         attachment2.setUrl("https://example.org/example");
         assertSame(attachment, attachmentService.save(attachment2));
-        verify(attachmentRepository).save(Mockito.<Attachment>any());
+        verify(attachmentRepository).save(Mockito.any());
     }
 
 
     @Test
     void testGetAllAttachments() {
-
         AttachmentRepository attachmentRepository = mock(AttachmentRepository.class);
         ArrayList<Attachment> attachmentList = new ArrayList<>();
         when(attachmentRepository.findAll()).thenReturn(attachmentList);
@@ -62,7 +61,6 @@ class AttachmentServiceTest {
      */
     @Test
     void testGetAttachmentById() {
-
         Attachment attachment = new Attachment();
         attachment.setId(1L);
         attachment.setTicket(new Ticket());
@@ -79,8 +77,6 @@ class AttachmentServiceTest {
 
     @Test
     void testGetAttachmentByTicket() {
-
-
         AttachmentRepository attachmentRepository = mock(AttachmentRepository.class);
         Optional<List<Attachment>> ofResult = Optional.of(new ArrayList<>());
         when(attachmentRepository.findAttachmentByTicket(Mockito.<Long>any())).thenReturn(ofResult);
@@ -96,7 +92,6 @@ class AttachmentServiceTest {
      */
     @Test
     void testDeleteAttachment() {
-
         Attachment attachment = new Attachment();
         attachment.setId(1L);
         attachment.setTicket(new Ticket());
@@ -108,7 +103,7 @@ class AttachmentServiceTest {
         ResponseEntity<Attachment> actualDeleteAttachmentResult = (new AttachmentService(attachmentRepository))
                 .deleteAttachment(1L);
         assertNull(actualDeleteAttachmentResult.getBody());
-        assertEquals(204, actualDeleteAttachmentResult.getStatusCodeValue());
+        assertEquals(204, actualDeleteAttachmentResult.getStatusCode().value());
         assertTrue(actualDeleteAttachmentResult.getHeaders().isEmpty());
         verify(attachmentRepository).findById(Mockito.<Long>any());
         verify(attachmentRepository).deleteById(Mockito.<Long>any());
@@ -117,13 +112,12 @@ class AttachmentServiceTest {
 
     @Test
     void testDeleteAttachment2() {
-
         AttachmentRepository attachmentRepository = mock(AttachmentRepository.class);
         when(attachmentRepository.findById(Mockito.<Long>any())).thenReturn(Optional.empty());
         ResponseEntity<Attachment> actualDeleteAttachmentResult = (new AttachmentService(attachmentRepository))
                 .deleteAttachment(1L);
         assertNull(actualDeleteAttachmentResult.getBody());
-        assertEquals(404, actualDeleteAttachmentResult.getStatusCodeValue());
+        assertEquals(404, actualDeleteAttachmentResult.getStatusCode().value());
         assertTrue(actualDeleteAttachmentResult.getHeaders().isEmpty());
         verify(attachmentRepository).findById(Mockito.<Long>any());
     }
