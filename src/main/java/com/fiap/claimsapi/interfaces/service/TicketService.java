@@ -34,12 +34,14 @@ public class TicketService {
         log.info("Enviando mensagem para a QUEUE da AWS...");
         EmailMSgDto emailMSgDtoDTO = EmailMSgDto.toEmailMSgDtoDTO(ticket, INIT_MESSAGE);
         messageQueueService.publishExpense(emailMSgDtoDTO);
-        return new Ticket(); //ticketRepository.save(ticket);
+        return ticketRepository.save(ticket);
     }
 
     public Optional<Ticket> update(Ticket ticket) {
         Optional<Ticket> updatable = ticketRepository.findById(ticket.getId());
         if (updatable.isPresent()) {
+            EmailMSgDto emailMSgDtoDTO = EmailMSgDto.toEmailMSgDtoDTO(ticket, INIT_MESSAGE);
+            messageQueueService.publishExpense(emailMSgDtoDTO);
             Ticket currentTicket = updatable.get();
             BeanUtils.copyProperties(ticket, currentTicket, "id");
             ticketRepository.save(currentTicket);
