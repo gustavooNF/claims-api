@@ -38,9 +38,11 @@ public class TicketService {
     }
 
     public Optional<Ticket> update(Ticket ticket) {
+        String actionMessage = "Seu ticket está sendo tratado pelo responsável da área. Ação: %s";
         Optional<Ticket> updatable = ticketRepository.findById(ticket.getId());
         if (updatable.isPresent()) {
-            EmailMSgDto emailMSgDtoDTO = EmailMSgDto.toEmailMSgDtoDTO(ticket, INIT_MESSAGE);
+            actionMessage = actionMessage.formatted(ticket.getDescription());
+            EmailMSgDto emailMSgDtoDTO = EmailMSgDto.toEmailMSgDtoDTO(ticket, actionMessage);
             messageQueueService.publishExpense(emailMSgDtoDTO);
             Ticket currentTicket = updatable.get();
             BeanUtils.copyProperties(ticket, currentTicket, "id");
