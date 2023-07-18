@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    username: admin
+    url: jdbc:mysql://db-ecommerce.czy2muwthp1j.us-east-1.rds.amazonaws.com/tickets-db?createDatabaseIfNotExist=true&useSSL=false
+    password: '12345678'
+  jpa:
+    database: mysql
+    hibernate:
+      ddl-auto: update
+    show-sql: 'true'
+
+cloud:
+  aws:
+    region:
+      static: us-east-1
+      auto: false
+    stack:
+      auto: false
+    credentials:
+      access-key: <key>
+      secret-key: <key>
+    end-point:
+      uri: msg-email-ecomerce
